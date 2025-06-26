@@ -13,7 +13,14 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SignupRouteImport } from './routes/Signup'
 import { Route as SigninRouteImport } from './routes/Signin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
+import { Route as DashboardMyComplaintsRouteImport } from './routes/dashboard.my-complaints'
+import { Route as DashboardMessagesRouteImport } from './routes/dashboard.messages'
+import { Route as DashboardHelpCenterRouteImport } from './routes/dashboard.help-center'
 import { Route as DashboardComplaintsRouteImport } from './routes/dashboard.complaints'
+import { Route as DashboardCategoriesRouteImport } from './routes/dashboard.categories'
+import { Route as DashboardComplaintFileRouteImport } from './routes/dashboard.complaint.file'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -35,9 +42,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMyComplaintsRoute = DashboardMyComplaintsRouteImport.update({
+  id: '/my-complaints',
+  path: '/my-complaints',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMessagesRoute = DashboardMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardHelpCenterRoute = DashboardHelpCenterRouteImport.update({
+  id: '/help-center',
+  path: '/help-center',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardComplaintsRoute = DashboardComplaintsRouteImport.update({
   id: '/complaints',
   path: '/complaints',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCategoriesRoute = DashboardCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardComplaintFileRoute = DashboardComplaintFileRouteImport.update({
+  id: '/complaint/file',
+  path: '/complaint/file',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -46,14 +88,27 @@ export interface FileRoutesByFullPath {
   '/Signin': typeof SigninRoute
   '/Signup': typeof SignupRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
+  '/dashboard/help-center': typeof DashboardHelpCenterRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/my-complaints': typeof DashboardMyComplaintsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/complaint/file': typeof DashboardComplaintFileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/Signin': typeof SigninRoute
   '/Signup': typeof SignupRoute
-  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
+  '/dashboard/help-center': typeof DashboardHelpCenterRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/my-complaints': typeof DashboardMyComplaintsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/complaint/file': typeof DashboardComplaintFileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,7 +116,14 @@ export interface FileRoutesById {
   '/Signin': typeof SigninRoute
   '/Signup': typeof SignupRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
+  '/dashboard/help-center': typeof DashboardHelpCenterRoute
+  '/dashboard/messages': typeof DashboardMessagesRoute
+  '/dashboard/my-complaints': typeof DashboardMyComplaintsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/complaint/file': typeof DashboardComplaintFileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -70,16 +132,41 @@ export interface FileRouteTypes {
     | '/Signin'
     | '/Signup'
     | '/dashboard'
+    | '/dashboard/categories'
     | '/dashboard/complaints'
+    | '/dashboard/help-center'
+    | '/dashboard/messages'
+    | '/dashboard/my-complaints'
+    | '/dashboard/settings'
+    | '/dashboard/'
+    | '/dashboard/complaint/file'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/Signin' | '/Signup' | '/dashboard' | '/dashboard/complaints'
+  to:
+    | '/'
+    | '/Signin'
+    | '/Signup'
+    | '/dashboard/categories'
+    | '/dashboard/complaints'
+    | '/dashboard/help-center'
+    | '/dashboard/messages'
+    | '/dashboard/my-complaints'
+    | '/dashboard/settings'
+    | '/dashboard'
+    | '/dashboard/complaint/file'
   id:
     | '__root__'
     | '/'
     | '/Signin'
     | '/Signup'
     | '/dashboard'
+    | '/dashboard/categories'
     | '/dashboard/complaints'
+    | '/dashboard/help-center'
+    | '/dashboard/messages'
+    | '/dashboard/my-complaints'
+    | '/dashboard/settings'
+    | '/dashboard/'
+    | '/dashboard/complaint/file'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +206,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/my-complaints': {
+      id: '/dashboard/my-complaints'
+      path: '/my-complaints'
+      fullPath: '/dashboard/my-complaints'
+      preLoaderRoute: typeof DashboardMyComplaintsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/messages': {
+      id: '/dashboard/messages'
+      path: '/messages'
+      fullPath: '/dashboard/messages'
+      preLoaderRoute: typeof DashboardMessagesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/help-center': {
+      id: '/dashboard/help-center'
+      path: '/help-center'
+      fullPath: '/dashboard/help-center'
+      preLoaderRoute: typeof DashboardHelpCenterRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/complaints': {
       id: '/dashboard/complaints'
       path: '/complaints'
@@ -126,15 +248,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardComplaintsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/categories': {
+      id: '/dashboard/categories'
+      path: '/categories'
+      fullPath: '/dashboard/categories'
+      preLoaderRoute: typeof DashboardCategoriesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/complaint/file': {
+      id: '/dashboard/complaint/file'
+      path: '/complaint/file'
+      fullPath: '/dashboard/complaint/file'
+      preLoaderRoute: typeof DashboardComplaintFileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
 interface DashboardRouteChildren {
+  DashboardCategoriesRoute: typeof DashboardCategoriesRoute
   DashboardComplaintsRoute: typeof DashboardComplaintsRoute
+  DashboardHelpCenterRoute: typeof DashboardHelpCenterRoute
+  DashboardMessagesRoute: typeof DashboardMessagesRoute
+  DashboardMyComplaintsRoute: typeof DashboardMyComplaintsRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardComplaintFileRoute: typeof DashboardComplaintFileRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardCategoriesRoute: DashboardCategoriesRoute,
   DashboardComplaintsRoute: DashboardComplaintsRoute,
+  DashboardHelpCenterRoute: DashboardHelpCenterRoute,
+  DashboardMessagesRoute: DashboardMessagesRoute,
+  DashboardMyComplaintsRoute: DashboardMyComplaintsRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardComplaintFileRoute: DashboardComplaintFileRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(

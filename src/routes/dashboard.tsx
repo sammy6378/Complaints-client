@@ -1,4 +1,4 @@
-import Layout from '@/components/dashboard/Layout'
+import Layout from '@/dashboard/Layout'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/dashboard')({

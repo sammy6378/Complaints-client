@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useState, useEffect } from 'react'
-import type { TComplaint } from '@/dashboard/services/complaints'
+import type { TComplaint } from '@/types/complaints'
 
 type EditComplaintModalProps = {
   open: boolean

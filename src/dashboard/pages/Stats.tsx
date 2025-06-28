@@ -13,6 +13,7 @@ import {
   Star,
   Timer,
 } from 'lucide-react'
+import { useComplaintMetrics } from '../hooks/useComplaints'
 
 
 
@@ -79,10 +80,11 @@ const QuickActionCard = ({ icon, title, description, onClick, color }) => (
 )
 
 function UserDashboard() {
+  const {total,pending,resolved,highPriority} = useComplaintMetrics()
   const stats = [
     {
       title: 'My Complaints',
-      value: 12,
+      value: total,
       icon: <MessageSquare className="text-blue-600" />,
       color: 'border-blue-600',
       trend: 'up',
@@ -90,7 +92,7 @@ function UserDashboard() {
     },
     {
       title: 'Pending Review',
-      value: 3,
+      value: pending,
       icon: <Clock className="text-yellow-600" />,
       color: 'border-yellow-600',
       trend: 'down',
@@ -98,7 +100,7 @@ function UserDashboard() {
     },
     {
       title: 'Resolved',
-      value: 8,
+      value: resolved,
       icon: <CheckCircle className="text-green-600" />,
       color: 'border-green-600',
       trend: 'up',
@@ -106,7 +108,7 @@ function UserDashboard() {
     },
     {
       title: 'High Priority',
-      value: 1,
+      value: highPriority,
       icon: <AlertTriangle className="text-red-600" />,
       color: 'border-red-600',
     },

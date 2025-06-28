@@ -5,6 +5,7 @@ import { useForm } from '@tanstack/react-form'
 import { AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import type { z } from 'zod'
+import { usegetCategories } from '../hooks/useCategories'
 
 type ComplaintFormData = z.infer<typeof validateComplaint>
 
@@ -49,6 +50,9 @@ const fieldConfigs = [
 
 function CreateComplaint() {
   const saveComplaint = usecreateComplaint()
+  const categories = usegetCategories();
+  const categoriesData = categories?.data || []
+  // console.log('Categories:', categoriesData)
 
   const { Field, reset, Subscribe, handleSubmit } = useForm({
     defaultValues: {
@@ -168,6 +172,49 @@ function CreateComplaint() {
             />
           </div>
 
+          {/* category */}
+          {/* <div>
+            <Field
+              name="category_id"
+              validators={{
+                onChange: ({ value }) =>
+                  validateField(value, validateComplaint.shape.category_id),
+              }}
+              children={(field) => (
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-500 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    onBlur={field.handleBlur}
+                    className="w-full px-4 py-3 bg-white/10 border border-gray/20 rounded-lg focus:outline-none focus:ring-2"
+                  >
+                    <option value="">Select a category</option>
+                    {categoriesData.map((category) => (
+                      <option
+                        key={category.category_id}
+                        value={category.category_id}
+                      >
+                        {category.category_name}
+                      </option>
+                    ))}
+                  </select>
+                  {field.state.meta.errors[0] && (
+                    <div className="flex items-center mt-2 text-red-400 text-sm">
+                      <AlertCircle className="w-4 h-4 mr-1" />
+                      {field.state.meta.errors[0]}
+                    </div>
+                  )}
+                </div>
+              )}
+            />
+
+          </div> */}
+
+          {/* subcategory */}
+            <div></div>
           {/* Submit */}
           <div className="pt-4">
             <Subscribe

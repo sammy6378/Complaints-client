@@ -152,7 +152,7 @@ export const NotificationsPage = () => {
           </div>
 
           {/* Main Content */}
-          <div className="md:col-span-2 bg-white rounded-lg border p-6 min-h-[200px]">
+          <div className="md:col-span-2 rounded-lg border p-6 min-h-[200px]">
             {selectedNotification ? (
               <>
                 <div className="flex justify-between items-start mb-4">

@@ -26,7 +26,7 @@ function Complaints() {
   ]
 
   // Extract the actual complaints array from the API response
-  const complaintsData = complaints?.data?.data || []
+  const complaintsData = complaints?.data|| []
 
   const rows = Array.isArray(complaintsData)
     ? complaintsData.map((complaint: TComplaint) => ({

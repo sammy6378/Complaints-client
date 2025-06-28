@@ -9,6 +9,7 @@ export interface TSub extends TId {
 }
 
 export interface TCreateSub {
+  category_id: string
   subcategory_name: string
   description: string
 }

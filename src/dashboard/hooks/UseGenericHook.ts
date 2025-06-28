@@ -1,4 +1,3 @@
-// hooks/useGenericCrud.ts
 
 import {
   useQuery,
@@ -25,7 +24,7 @@ export const useGetList = <T>(
   return useQuery({
     queryKey: [key],
     queryFn: () => fetchList<T>(url),
-    staleTime: 0,
+    // staleTime: 1000,
   })
 }
 
@@ -41,7 +40,7 @@ export const useGetOne = <T>(
     queryKey: [key, url],
     queryFn: () => fetchOne<T>(url),
     enabled,
-    staleTime: 0,
+    // staleTime: 1000,
   })
 }
 
@@ -58,10 +57,6 @@ export const useCreate = <T, D = Partial<T>>(
     mutationFn: (data: D) => createItem<T, D>(url, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [key], exact: true })
-      queryClient.refetchQueries({
-        queryKey: [key],
-        exact: true,
-      })
     },
   })
 }
@@ -94,12 +89,19 @@ export const useDelete = (
 
   return useMutation({
     mutationFn: (id: string) => deleteItem(urlFn(id)),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [key],exact: true})
-      queryClient.refetchQueries({
-        queryKey: [key],
-        exact: true,
-      })
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: [key],exact: true })
+      // // remove from cached list
+      // queryClient.setQueryData<ApiResponse<any[]>>([key], (oldData) => {
+      //   if (!oldData) return oldData
+      //   return {
+      //     ...oldData,
+      //     data: oldData.data.filter((item) => item.category_id !== id),
+      //   }
+      // })
+    },
+    onError: (error: Error) => {
+      console.error('Delete mutation error:', error)
     },
   })
 }

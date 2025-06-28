@@ -1,11 +1,4 @@
-export type TApiResponse = {
-  data: {
-    data: TComplaint[]
-  }
-  total: number
-  limit: number
-}
-export interface TComplaint extends TApiResponse {
+export interface TComplaint {
   complaint_id: string
   complaint_title: string
   complaint_description: string

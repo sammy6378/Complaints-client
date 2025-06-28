@@ -10,6 +10,7 @@ export interface ApiResponse<T> {
   data: T
 }
 
+
 /** Get a list of entities */
 export const fetchList = async <T>(url: string): Promise<ApiResponse<T[]>> => {
   const res = await fetch(`${baseUrl}/${url}`)

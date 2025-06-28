@@ -14,16 +14,27 @@ const base = 'categories'
 export const usegetCategories = () => useGetList<TCategory>('categories', base)
 
 export const usegetCategory = (id: string) =>
-  useGetOne<TCategory>('category', `${base}/${id}`, !!id)
+  useGetOne<TCategory>('categories', `${base}/${id}`, !!id)
 
 export const usecreateCategory = () =>
-  useCreate<TCategory, TCreateCategory>('categories', base)
+  useCreate<TCategory, TCreateCategory>('createcategory', base)
 
 export const useupdateCategory = () =>
   useUpdate<TCategory, Partial<TCreateCategory>>(
-    'categories',
+    'updatecategory',
     (id) => `${base}/${id}`,
   )
 
 export const usedeleteCategory = () =>
-  useDelete('categories', (id) => `${base}/${id}`)
+  useDelete('deletecategory', (id) => `${base}/${id}`)
+
+
+export const useGetCategoryMetrics = () =>{
+  const {data: category} = usegetCategories();
+
+  const total = category?.data.length || 0;
+
+  return {
+    total
+  }
+}

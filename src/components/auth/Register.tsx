@@ -2,15 +2,18 @@ import { useState } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
 import { MessageCircle, Eye, EyeOff, AlertCircle } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
+import { useauthRegister } from '@/dashboard/hooks/useRegisterHook'
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const registerUser = useauthRegister()
+  const navigate = useNavigate()
 
   const signUpSchema = z.object({
-    fullName: z.string().min(2, 'Full name must be at least 2 characters'),
+    full_name: z.string().min(2, 'Full name must be at least 2 characters'),
     username: z
       .string()
       .min(3, 'Username must be at least 3 characters')
@@ -18,7 +21,7 @@ function SignUp() {
         /^[a-zA-Z0-9_]+$/,
         'Username can only contain letters, numbers, and underscores',
       ),
-    phoneNumber: z
+    phone_number: z
       .string()
       .min(10, 'Phone number must be at least 10 digits')
       .regex(/^\+?[\d\s\-\(\)]+$/, 'Invalid phone number format'),
@@ -42,11 +45,11 @@ function SignUp() {
     return undefined
   }
 
-  const { Field, handleSubmit, reset, Subscribe } = useForm({
+  const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
-      fullName: '',
+      full_name: '',
       username: '',
-      phoneNumber: '',
+      phone_number: '',
       email: '',
       password: '',
     } as FormData,
@@ -58,12 +61,21 @@ function SignUp() {
         console.error('Validation failed:', validate.error.issues)
         return
       }
-
+     try {
+      await registerUser.mutateAsync(value)
       toast.success('Account created successfully!')
-      reset()
       setIsLoading(false)
+      // redirect to login
+      navigate({ to: '/Signin', replace: true })   
+     } catch (error) {
+        console.error('Error during registration:', error)
+      }finally{
+        setIsLoading(false)
+      }
+      
+     }
     },
-  })
+  )
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-start justify-center px-6 py-12">
@@ -96,12 +108,12 @@ function SignUp() {
         >
           {/* Full Name */}
           <Field
-            name="fullName"
+            name="full_name"
             validators={{
               onChange: ({ value }) =>
-                validateField(value, signUpSchema.shape.fullName),
+                validateField(value, signUpSchema.shape.full_name),
               onBlur: ({ value }) =>
-                validateField(value, signUpSchema.shape.fullName),
+                validateField(value, signUpSchema.shape.full_name),
             }}
           >
             {(field) => (
@@ -162,12 +174,12 @@ function SignUp() {
 
           {/* Phone Number */}
           <Field
-            name="phoneNumber"
+            name="phone_number"
             validators={{
               onChange: ({ value }) =>
-                validateField(value, signUpSchema.shape.phoneNumber),
+                validateField(value, signUpSchema.shape.phone_number),
               onBlur: ({ value }) =>
-                validateField(value, signUpSchema.shape.phoneNumber),
+                validateField(value, signUpSchema.shape.phone_number),
             }}
           >
             {(field) => (
@@ -275,7 +287,7 @@ function SignUp() {
           {/* Submit */}
           <Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
+            children={([canSubmit]) => (
               <button
                 type="submit"
                 disabled={isLoading || !canSubmit}

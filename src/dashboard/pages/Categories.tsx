@@ -2,9 +2,8 @@ import { usedeleteCategory, usegetCategories, useGetCategoryMetrics } from '../h
 import { Skeleton } from '@/components/ui/skeleton'
 import { useState, useMemo } from 'react'
 import { toast } from 'sonner'
-import { Plus, Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import CategoryModal from '../components/CategoryModal'
-import SubCategoryModal from '../components/SubCategoryModal'
 
 function Categories() {
   const { data: categories, isPending, error } = usegetCategories()
@@ -13,7 +12,7 @@ function Categories() {
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [modal, setModal] = useState<null | {
-    type: 'category' | 'subcategory'
+    type: 'category'
     id?: string
   }>(null)
 
@@ -46,10 +45,6 @@ function Categories() {
 
   const handleCreate = () => {
     setModal({ type: 'category' })
-  }
-
-  const handleCreateSubCategory = (id: string) => {
-    setModal({ type: 'subcategory', id })
   }
   
 
@@ -131,17 +126,6 @@ function Categories() {
                 </p>
 
                 <div className="absolute top-3 right-3 flex flex-row gap-2">
-                  {/* Create a subcategory */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleCreateSubCategory(category.category_id)
-                    }}
-                    title="Create subcategory"
-                    className="p-1 rounded-full text-green-500 hover:text-green-700 hover:bg-green-50 transition-opacity opacity-0 group-hover:opacity-100"
-                  >
-                    <Plus className="w-5 h-5" />
-                  </button>
                   {/* Delete icon on hover */}
                   <button
                     onClick={(e) => {
@@ -213,10 +197,6 @@ function Categories() {
       {/* modal */}
       {modal?.type === 'category' && (
         <CategoryModal onClose={() => setModal(null)} />
-      )}
-
-      {modal?.type === 'subcategory' && (
-        <SubCategoryModal id={modal.id ?? ''} onClose={() => setModal(null)} />
       )}
     </div>
   )

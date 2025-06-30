@@ -1,4 +1,4 @@
-import { TPriority } from "@/types/complaints"
+import { TPriority } from '@/types/complaints'
 import { z } from 'zod'
 
 export const validateComplaint = z.object({
@@ -13,4 +13,6 @@ export const validateComplaint = z.object({
     },
   ),
   location: z.string().min(4, 'Location must be more than 4 characters'),
+  category_id: z.string().min(1, 'Category is required'),
+  sub_categories: z.array(z.string()).optional(),
 })

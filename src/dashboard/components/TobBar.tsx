@@ -59,7 +59,7 @@ function TopBar({ onToggleSidebar }: TopBarProps) {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => console.log('Account Clicked')}>
+            <DropdownMenuItem className='cursor-pointer' onClick={() => console.log('Account Clicked')}>
               Account
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => console.log('Logout Clicked')}>

@@ -10,10 +10,12 @@ import {
 } from 'lucide-react'
 import { Link, useLocation } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
+import { authSlice } from '@/store/store'
 
 interface SidebarProps {
   isOpen: boolean
   onClose: () => void
+  onLogout?: () => void
 }
 
 const links = [
@@ -24,7 +26,7 @@ const links = [
   { to: '/dashboard/messages', label: 'Messages', icon: MessageCircle },
   { to: '/dashboard/settings', label: 'Settings', icon: Settings },
   { to: '/dashboard/help-center', label: 'Help Center', icon: HelpCircle },
-  { to: '/dashboard/logout', label: 'Logout', icon: LogOut },
+  { to: '/dashboard/logout', label: 'Logout', icon: LogOut, onClick: authSlice.logout() },
 ]
 
 function Sidebar({ isOpen, onClose }: SidebarProps) {

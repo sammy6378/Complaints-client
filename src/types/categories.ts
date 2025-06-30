@@ -7,6 +7,8 @@ export type TId = {
 export interface TCategory extends TId {
   category_name: string
   description: string
+  sub_categories: string[]
+  created_at: string
 }
 
 export interface TCategoriesResponse {
@@ -18,4 +20,5 @@ export interface TCategoriesResponse {
 export interface TCreateCategory {
   category_name: string
   description: string
+  sub_categories: string[]
 }

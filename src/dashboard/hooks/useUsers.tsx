@@ -2,13 +2,13 @@
 
 import { useGetList, useGetOne, useCreate } from './UseGenericHook'
 
-import type { TUser, TCreateUser } from '@/types/users'
+import type { TRegister, TCreateUser } from '@/types/users'
 
 const base = 'users'
 
-export const usegetUsers = () => useGetList<TUser>('users', base)
+export const usegetUsers = () => useGetList<TRegister>('users', base)
 
 export const usegetUserById = (id: string) =>
-  useGetOne<TUser>('user', `${base}/${id}`, !!id)
+  useGetOne<TRegister>('user', `${base}/${id}`, !!id)
 
-export const useCreateUser = () => useCreate<TUser, TCreateUser>('users', base)
+export const useCreateUser = () => useCreate<TRegister, TCreateUser>('users', base)

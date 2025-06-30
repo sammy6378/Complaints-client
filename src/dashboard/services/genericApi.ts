@@ -2,7 +2,7 @@
 
 import handleApiResponse from '@/lib/ApiResponse'
 
-const baseUrl = 'https://resolveit.onrender.com/api';
+export const baseUrl = 'https://resolveit.onrender.com/api';
 
 export interface ApiResponse<T> {
   success: boolean
@@ -13,14 +13,18 @@ export interface ApiResponse<T> {
 
 /** Get a list of entities */
 export const fetchList = async <T>(url: string): Promise<ApiResponse<T[]>> => {
-  const res = await fetch(`${baseUrl}/${url}`)
+  const res = await fetch(`${baseUrl}/${url}`,{
+    credentials: 'include',
+  })
   await handleApiResponse(res)
   return res.json()
 }
 
 /** Get a single entity by ID */
 export const fetchOne = async <T>(url: string): Promise<ApiResponse<T>> => {
-  const res = await fetch(`${baseUrl}/${url}`)
+  const res = await fetch(`${baseUrl}/${url}`,{
+    credentials: 'include',
+  })
   await handleApiResponse(res)
   return res.json()
 }
@@ -33,6 +37,7 @@ export const createItem = async <T, D = Partial<T>>(
   const res = await fetch(`${baseUrl}/${url}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(payload),
   })
   await handleApiResponse(res)
@@ -47,6 +52,7 @@ export const updateItem = async <T, D = Partial<T>>(
   const res = await fetch(`${baseUrl}/${url}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(payload),
   })
   await handleApiResponse(res)
@@ -57,6 +63,7 @@ export const updateItem = async <T, D = Partial<T>>(
 export const deleteItem = async (url: string): Promise<ApiResponse<null>> => {
   const res = await fetch(`${baseUrl}/${url}`, {
     method: 'DELETE',
+    credentials: 'include',
   })
   await handleApiResponse(res)
 

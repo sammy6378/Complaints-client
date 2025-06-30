@@ -10,8 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as SignupRouteImport } from './routes/Signup'
-import { Route as SigninRouteImport } from './routes/Signin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
@@ -20,21 +18,14 @@ import { Route as DashboardMessagesRouteImport } from './routes/dashboard.messag
 import { Route as DashboardHelpCenterRouteImport } from './routes/dashboard.help-center'
 import { Route as DashboardComplaintsRouteImport } from './routes/dashboard.complaints'
 import { Route as DashboardCategoriesRouteImport } from './routes/dashboard.categories'
+import { Route as authSignupRouteImport } from './routes/(auth)/Signup'
+import { Route as authSigninRouteImport } from './routes/(auth)/Signin'
+import { Route as DashboardMyComplaintsComplaintIdRouteImport } from './routes/dashboard.my-complaints.$complaintId'
 import { Route as DashboardComplaintFileRouteImport } from './routes/dashboard.complaint.file'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignupRoute = SignupRouteImport.update({
-  id: '/Signup',
-  path: '/Signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SigninRoute = SigninRouteImport.update({
-  id: '/Signin',
-  path: '/Signin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -77,6 +68,22 @@ const DashboardCategoriesRoute = DashboardCategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => DashboardRoute,
 } as any)
+const authSignupRoute = authSignupRouteImport.update({
+  id: '/(auth)/Signup',
+  path: '/Signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authSigninRoute = authSigninRouteImport.update({
+  id: '/(auth)/Signin',
+  path: '/Signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardMyComplaintsComplaintIdRoute =
+  DashboardMyComplaintsComplaintIdRouteImport.update({
+    id: '/$complaintId',
+    path: '/$complaintId',
+    getParentRoute: () => DashboardMyComplaintsRoute,
+  } as any)
 const DashboardComplaintFileRoute = DashboardComplaintFileRouteImport.update({
   id: '/complaint/file',
   path: '/complaint/file',
@@ -85,53 +92,56 @@ const DashboardComplaintFileRoute = DashboardComplaintFileRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/Signin': typeof SigninRoute
-  '/Signup': typeof SignupRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/Signin': typeof authSigninRoute
+  '/Signup': typeof authSignupRoute
   '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/help-center': typeof DashboardHelpCenterRoute
   '/dashboard/messages': typeof DashboardMessagesRoute
-  '/dashboard/my-complaints': typeof DashboardMyComplaintsRoute
+  '/dashboard/my-complaints': typeof DashboardMyComplaintsRouteWithChildren
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/complaint/file': typeof DashboardComplaintFileRoute
+  '/dashboard/my-complaints/$complaintId': typeof DashboardMyComplaintsComplaintIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/Signin': typeof SigninRoute
-  '/Signup': typeof SignupRoute
+  '/Signin': typeof authSigninRoute
+  '/Signup': typeof authSignupRoute
   '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/help-center': typeof DashboardHelpCenterRoute
   '/dashboard/messages': typeof DashboardMessagesRoute
-  '/dashboard/my-complaints': typeof DashboardMyComplaintsRoute
+  '/dashboard/my-complaints': typeof DashboardMyComplaintsRouteWithChildren
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/complaint/file': typeof DashboardComplaintFileRoute
+  '/dashboard/my-complaints/$complaintId': typeof DashboardMyComplaintsComplaintIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/Signin': typeof SigninRoute
-  '/Signup': typeof SignupRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/(auth)/Signin': typeof authSigninRoute
+  '/(auth)/Signup': typeof authSignupRoute
   '/dashboard/categories': typeof DashboardCategoriesRoute
   '/dashboard/complaints': typeof DashboardComplaintsRoute
   '/dashboard/help-center': typeof DashboardHelpCenterRoute
   '/dashboard/messages': typeof DashboardMessagesRoute
-  '/dashboard/my-complaints': typeof DashboardMyComplaintsRoute
+  '/dashboard/my-complaints': typeof DashboardMyComplaintsRouteWithChildren
   '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/complaint/file': typeof DashboardComplaintFileRoute
+  '/dashboard/my-complaints/$complaintId': typeof DashboardMyComplaintsComplaintIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/Signin'
     | '/Signup'
-    | '/dashboard'
     | '/dashboard/categories'
     | '/dashboard/complaints'
     | '/dashboard/help-center'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/'
     | '/dashboard/complaint/file'
+    | '/dashboard/my-complaints/$complaintId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -153,12 +164,13 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard'
     | '/dashboard/complaint/file'
+    | '/dashboard/my-complaints/$complaintId'
   id:
     | '__root__'
     | '/'
-    | '/Signin'
-    | '/Signup'
     | '/dashboard'
+    | '/(auth)/Signin'
+    | '/(auth)/Signup'
     | '/dashboard/categories'
     | '/dashboard/complaints'
     | '/dashboard/help-center'
@@ -167,13 +179,14 @@ export interface FileRouteTypes {
     | '/dashboard/settings'
     | '/dashboard/'
     | '/dashboard/complaint/file'
+    | '/dashboard/my-complaints/$complaintId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SigninRoute: typeof SigninRoute
-  SignupRoute: typeof SignupRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  authSigninRoute: typeof authSigninRoute
+  authSignupRoute: typeof authSignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -183,20 +196,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/Signup': {
-      id: '/Signup'
-      path: '/Signup'
-      fullPath: '/Signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/Signin': {
-      id: '/Signin'
-      path: '/Signin'
-      fullPath: '/Signin'
-      preLoaderRoute: typeof SigninRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -255,6 +254,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCategoriesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/(auth)/Signup': {
+      id: '/(auth)/Signup'
+      path: '/Signup'
+      fullPath: '/Signup'
+      preLoaderRoute: typeof authSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/Signin': {
+      id: '/(auth)/Signin'
+      path: '/Signin'
+      fullPath: '/Signin'
+      preLoaderRoute: typeof authSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/my-complaints/$complaintId': {
+      id: '/dashboard/my-complaints/$complaintId'
+      path: '/$complaintId'
+      fullPath: '/dashboard/my-complaints/$complaintId'
+      preLoaderRoute: typeof DashboardMyComplaintsComplaintIdRouteImport
+      parentRoute: typeof DashboardMyComplaintsRoute
+    }
     '/dashboard/complaint/file': {
       id: '/dashboard/complaint/file'
       path: '/complaint/file'
@@ -265,12 +285,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardMyComplaintsRouteChildren {
+  DashboardMyComplaintsComplaintIdRoute: typeof DashboardMyComplaintsComplaintIdRoute
+}
+
+const DashboardMyComplaintsRouteChildren: DashboardMyComplaintsRouteChildren = {
+  DashboardMyComplaintsComplaintIdRoute: DashboardMyComplaintsComplaintIdRoute,
+}
+
+const DashboardMyComplaintsRouteWithChildren =
+  DashboardMyComplaintsRoute._addFileChildren(
+    DashboardMyComplaintsRouteChildren,
+  )
+
 interface DashboardRouteChildren {
   DashboardCategoriesRoute: typeof DashboardCategoriesRoute
   DashboardComplaintsRoute: typeof DashboardComplaintsRoute
   DashboardHelpCenterRoute: typeof DashboardHelpCenterRoute
   DashboardMessagesRoute: typeof DashboardMessagesRoute
-  DashboardMyComplaintsRoute: typeof DashboardMyComplaintsRoute
+  DashboardMyComplaintsRoute: typeof DashboardMyComplaintsRouteWithChildren
   DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardComplaintFileRoute: typeof DashboardComplaintFileRoute
@@ -281,7 +314,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardComplaintsRoute: DashboardComplaintsRoute,
   DashboardHelpCenterRoute: DashboardHelpCenterRoute,
   DashboardMessagesRoute: DashboardMessagesRoute,
-  DashboardMyComplaintsRoute: DashboardMyComplaintsRoute,
+  DashboardMyComplaintsRoute: DashboardMyComplaintsRouteWithChildren,
   DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardComplaintFileRoute: DashboardComplaintFileRoute,
@@ -293,9 +326,9 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SigninRoute: SigninRoute,
-  SignupRoute: SignupRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  authSigninRoute: authSigninRoute,
+  authSignupRoute: authSignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

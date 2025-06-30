@@ -2,12 +2,17 @@ import { useState } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { z } from 'zod'
 import { MessageCircle, Eye, EyeOff, AlertCircle } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { toast } from 'sonner'
+import { useLogin } from '@/dashboard/hooks/useLoginHook'
 
 function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const login = useLogin()
+  const search = useSearch({from: '/(auth)/Signin'}) as {redirect?: string}
+  const redirect = search.redirect || '/dashboard'
 
   // Validation schemas
   const signInSchema = z.object({
@@ -25,7 +30,7 @@ function SignIn() {
     return undefined
   }
 
-  const { Field, handleSubmit, reset, Subscribe } = useForm({
+  const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
       email: '',
       password: '',
@@ -37,11 +42,21 @@ function SignIn() {
         console.error('Validation failed:', validate.error.issues)
         return
       }
-      toast.success('Form submitted successfully!')
-
-      // Reset form after successful submission
-      reset()
-      setIsLoading(false)
+      try {
+       const res = login.mutateAsync(value);
+       const data = await res
+       if (!data.success) {
+         toast.error(data.message || 'Failed to sign in')
+         setIsLoading(false)
+         return
+       }
+       navigate({to: redirect, replace: true})
+        setIsLoading(false)
+      } catch (error) {
+        console.error('Sign in failed:', error)
+      }finally{
+        setIsLoading(false)
+      }
     },
   })
 
@@ -162,7 +177,7 @@ function SignIn() {
           {/* Submit Button */}
           <Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
+            children={([canSubmit]) => (
               <button
                 type="submit"
                 disabled={isLoading || !canSubmit}

@@ -19,4 +19,6 @@ export interface TCreateComplaint {
   complaint_description: string
   priority: TPriority
   location: string
+  category_id: string
+  sub_categories?: string[]
 }

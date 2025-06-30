@@ -14,6 +14,7 @@ import {
   Timer,
 } from 'lucide-react'
 import { useComplaintMetrics } from '../hooks/useComplaints'
+import { Link } from '@tanstack/react-router'
 
 
 
@@ -61,23 +62,35 @@ const ActivityItem = ({ icon, title, description, time, status }) => (
 )
 
 // Quick Action Card Component
-const QuickActionCard = ({ icon, title, description, onClick, color }) => (
-  <motion.div
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    onClick={onClick}
-    className={`bg-white p-4 rounded-lg shadow-sm border cursor-pointer hover:shadow-md transition-all duration-200 border-l-4 ${color}`}
+const QuickActionCard = ({
+  icon,
+  title,
+  description,
+  onClick,
+  color,
+  path,
+}) => (
+  <Link
+    className={`bg-white p-4 mb-3 cursor-pointer`}
+    to={path}
   >
-    <div className="flex items-center space-x-3">
-      <div className="text-2xl">{icon}</div>
-      <div className="flex-1">
-        <h3 className="font-medium text-gray-900">{title}</h3>
-        <p className="text-sm text-gray-600">{description}</p>
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+    >
+      <div className="flex items-center space-x-3">
+        <div className="text-2xl">{icon}</div>
+        <div className="flex-1">
+          <h3 className="font-medium text-gray-900">{title}</h3>
+          <p className="text-sm text-gray-600">{description}</p>
+        </div>
+        <ChevronRight className="w-5 h-5 text-gray-400" />
       </div>
-      <ChevronRight className="w-5 h-5 text-gray-400" />
-    </div>
-  </motion.div>
+    </motion.div>
+  </Link>
 )
+
 
 function UserDashboard() {
   const {total,pending,resolved,highPriority} = useComplaintMetrics()
@@ -159,6 +172,7 @@ function UserDashboard() {
       description: 'Report a new issue or concern',
       color: 'border-blue-600',
       onClick: () => console.log('Submit complaint'),
+      path: '/dashboard/complaints/file',
     },
     {
       icon: <FileText className="text-green-600" />,
@@ -166,6 +180,7 @@ function UserDashboard() {
       description: 'See your complaint history',
       color: 'border-green-600',
       onClick: () => console.log('View complaints'),
+      path: '/dashboard/my-complaints',
     },
     {
       icon: <User className="text-purple-600" />,
@@ -173,6 +188,7 @@ function UserDashboard() {
       description: 'Manage your account settings',
       color: 'border-purple-600',
       onClick: () => console.log('Update profile'),
+      path: '/dashboard/settings',
     },
   ]
 

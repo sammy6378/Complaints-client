@@ -1,5 +1,5 @@
 import handleApiResponse from '@/lib/ApiResponse'
-import { baseUrl } from '@/lib/baseUrl'
+import { baseUrl } from './genericApi'
 import type { TCreateReply, TMessage, TReply } from '@/types/notifications'
 
 const url = `${baseUrl}/notifications`

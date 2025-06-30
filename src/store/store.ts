@@ -48,7 +48,10 @@ export const authSlice = {
       user: userData.user,
       tokens: userData.tokens,
     })
-    localStorage.setItem('authData', JSON.stringify(userData))
+    localStorage.setItem(
+      'authData',
+      JSON.stringify({ ...userData, isAuthenticated: true }),
+    )
   },
 
   logout: () => {
@@ -60,7 +63,10 @@ export const authSlice = {
     const userData = localStorage.getItem('authData')
     if (userData) {
       const jsonData = JSON.parse(userData)
-      authStore.setState(jsonData)
+      authStore.setState({
+        isAuthenticated: true,
+        ...jsonData,
+      })
     }
   },
 }

@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { authSlice } from '@/store/store'
 
 interface TopBarProps {
   onToggleSidebar: () => void
@@ -62,7 +63,7 @@ function TopBar({ onToggleSidebar }: TopBarProps) {
             <DropdownMenuItem className='cursor-pointer' onClick={() => console.log('Account Clicked')}>
               Account
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => console.log('Logout Clicked')}>
+            <DropdownMenuItem onClick={() => authSlice.logout()}>
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
